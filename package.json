@@ -1,0 +1,39 @@
+{
+  "name": "niuer",
+  "version": "0.0.1-alpha",
+  "description": "微前端",
+  "main": "main.js",
+  "author": "xiongshuang",
+  "license": "MIT",
+  "private": false,
+  "repository": "https://github.com/xiongshuang/niuer",
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "build": "npm run clean && node esbuild.config.js"
+  },
+  "keywords": [
+    "microservice",
+    "react",
+    "vue"
+  ],
+  "files": [
+    "dist/*"
+  ],
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.7.0",
+    "@typescript-eslint/parser": "^5.7.0",
+    "babel-eslint": "^10.1.0",
+    "esbuild": "^0.14.5",
+    "eslint": "^7.32.0",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-import": "^2.24.2",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.5.4"
+  },
+  "browserslist": [
+    "> 0.5%",
+    "last 2 versions",
+    "Firefox ESR",
+    "not dead"
+  ]
+}
