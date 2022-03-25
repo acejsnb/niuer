@@ -1,18 +1,21 @@
 {
   "name": "niuer",
   "version": "0.0.1-alpha",
-  "description": "微前端",
-  "main": "main.js",
+  "description": "微前端 Microfront-end framework",
+  "main": "dist/index.js",
   "author": "xiongshuang",
+  "email": "xsmails@163.com",
   "license": "MIT",
   "private": false,
   "repository": "https://github.com/xiongshuang/niuer",
   "scripts": {
     "clean": "rimraf ./dist",
-    "build": "npm run clean && node esbuild.config.js"
+    "declaration": "node copy.declaration.js",
+    "build": "npm run clean && node esbuild.config.js && npm run declaration"
   },
   "keywords": [
     "microservice",
+    "Microfront-end framework",
     "react",
     "vue"
   ],
@@ -29,11 +32,5 @@
     "eslint-plugin-import": "^2.24.2",
     "rimraf": "^3.0.2",
     "typescript": "^4.5.4"
-  },
-  "browserslist": [
-    "> 0.5%",
-    "last 2 versions",
-    "Firefox ESR",
-    "not dead"
-  ]
+  }
 }

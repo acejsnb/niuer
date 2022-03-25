@@ -14,7 +14,7 @@
               __webpack_public_path__ = window.__INJECTED_PUBLIC_PATH_IS_NIUER__;
           }
        ```
-     ![img.png](./static/0.png)
+     ![](./static/0.png)
 
 - main.js中引入` import './public-path'; `  
   ![](./static/1.png)

@@ -11,7 +11,12 @@ module.exports = {
         polyfills: ['Promise', 'URL'],
         'import/extensions': ['.js', '.ts'],
         'import/parsers': {
-            '@typescript-eslint/parser': ['.ts']
+            '@typescript-eslint/parser': ['.js', '.ts']
+        },
+        'import/resolver': {
+            node: {
+                extensions: ['.js', '.jsx', '.ts', '.tsx']
+            }
         }
     },
     globals: {
@@ -21,7 +26,6 @@ module.exports = {
         'babel', '@typescript-eslint'
     ],
     extends: [
-        // 'airbnb',
         'eslint:recommended',
         'plugin:import/typescript'
     ],

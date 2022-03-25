@@ -2,33 +2,18 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     },
     "target": "ESNext",
     "module": "ESNext",
-//    "module": "commonjs",
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext",
-      "scripthost"
-    ],
-    "types": ["node"],
-    "allowJs": true,
-    "skipLibCheck": false,
     "esModuleInterop": false,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "suppressImplicitAnyIndexErrors": true,
     "moduleResolution": "Node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
+    "removeComments": true,
+    "strict": true,
+    "skipLibCheck": false,
     "noEmit": false,
-    "declaration": false
+    "declaration": false,
   },
-  "include": ["./src", "./src/**/*.ts", "./src/**/*.tsx"],
-  "exclude": ["node_modules", "lib"]
+  "exclude": ["node_modules", "dist", "src/declaration.ts"]
 }
