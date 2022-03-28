@@ -125,7 +125,7 @@
    - 修改单个属性数据
    `globalAction.setItem('loading', false);`
    - 获取单个属性数据
-   `globalAction.etItem('loading');`
+   `globalAction.setItem('loading');`
    - 获取所有数据
    `globalAction.getState();`
    - 设置所有数据（这里会重新初始化 - 慎用）
@@ -138,4 +138,4 @@
    ```
 3. 集成vite打包
       - 设置 `build.lib` ,这里参考vite官网
-![](./static/vite-bulid-lib.png)
+    ![](./static/vite-bulid-lib.png)
