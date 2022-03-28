@@ -1,8 +1,8 @@
 import PathnameChange from './PathnameChange';
-// import type { App } from './type';
 
 let prevRoute = '',
     nextRoute = window.location.pathname;
+// 劫持路由 当路由发生改变时记录当前与上一个路由
 const hijackRouter = async () => {
     // 前进后退
     window.addEventListener('popstate', () => {
@@ -26,7 +26,7 @@ const hijackRouter = async () => {
         nextRoute = window.location.pathname;
         PathnameChange();
     };
-    // await routerChange();
+    await PathnameChange();
 };
 
 export const getPrevRoute = () => prevRoute;

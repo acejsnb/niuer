@@ -1,3 +1,5 @@
+import {beforeMount} from './ne/LifeCycle';
+
 export interface Props {
     basename?: string
     container?: string | HTMLElement | ShadowRoot
@@ -5,7 +7,7 @@ export interface Props {
 }
 type Fn = (props?: Props) => void;
 export interface LifeCycle {
-    bootstrap?: Fn
+    beforeMount?: Fn
     mount?: Fn
     unmount?: Fn
     props?: Props

@@ -1,3 +1,3 @@
-import { registerMicroApps, start } from './ne';
+import { registerMicroApps, start, GlobalAction } from './ne';
 
-export { registerMicroApps, start };
+export { registerMicroApps, start, GlobalAction };

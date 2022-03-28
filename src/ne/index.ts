@@ -1,5 +1,5 @@
 import HijackRouter from './HijackRouter';
-import PathnameChange from './PathnameChange';
+import GlobalAction from './GlobalAction';
 import type { App } from './type';
 
 // 子应用列表
@@ -9,7 +9,7 @@ type GetApps = () => App[]
 const getApps: GetApps = () => _apps;
 
 // 注册应用
-type RegisterMicroApps = (apps: App[]) => void
+type RegisterMicroApps = (apps: App[], basename?: string) => void
 const registerMicroApps: RegisterMicroApps = (apps) => {
     // console.log('registerMicroApps===', apps);
     _apps = apps;
@@ -17,13 +17,14 @@ const registerMicroApps: RegisterMicroApps = (apps) => {
 
 // 启动
 const start = async () => {
+    // 运行环境
     (window as any).__POWERED_IS_NIUER__ = true;
     await HijackRouter();
-    await PathnameChange();
 };
 
 export {
     getApps,
     registerMicroApps,
-    start
+    start,
+    GlobalAction
 };

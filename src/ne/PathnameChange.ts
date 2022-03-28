@@ -1,28 +1,31 @@
 import { getApps } from '.';
-import { bootstrap, mount, unmount } from './LifeCycle';
+import { beforeMount, mount, unmount } from './LifeCycle';
 import ImportHTML from './ImportHTML';
 import { getPrevRoute, getNextRoute } from './HijackRouter';
+import RemoveLastBias from './RemoveLastBias';
 import SetNodeAttribute from './SetNodeAttribute';
 
 // 路由变化处理
 const PathnameChange = async () => {
     const apps = getApps(),
+        prevRoute = RemoveLastBias(getPrevRoute()),
+        nextRoute = RemoveLastBias(getNextRoute()),
         // 上一个App
-        prevApp = apps.find(d => getPrevRoute().includes(d.activeRule)),
+        prevApp = apps.find(d => prevRoute.startsWith(RemoveLastBias(d.activeRule))),
         // 当前（下一个）App
-        app = apps.find(d => getNextRoute().includes(d.activeRule));
+        app = apps.find(d => nextRoute.startsWith(RemoveLastBias(d.activeRule)));
 
-    if (!app || prevApp === app) return;
+    // if (prevApp?.name === app?.name) return;
+    if (prevApp?.name === app?.name && prevRoute === nextRoute) return;
     // 卸载上一个App
     if (prevApp) {
         await unmount(prevApp);
         prevApp.sandbox?.inactive();
     }
-
     if (!app) return;
-    // console.log(11111, app);
 
     const { name, entry, container, sandbox: appSandbox } = app;
+    // webpack运行时变量
     (window as any).__INJECTED_PUBLIC_PATH_IS_NIUER__ = entry;
 
     const { template, execScripts } = await ImportHTML(entry);
@@ -30,21 +33,20 @@ const PathnameChange = async () => {
     _container.innerHTML = '';
     const div = document.createElement('div');
     SetNodeAttribute(div, { __app_by_niuer__: '', 'data-name': name });
-    _container.appendChild(div);
     // 创建Shadow
     const shadow: ShadowRoot = div.attachShadow({ mode: 'open' });
     shadow.innerHTML = template.innerHTML;
+    _container.appendChild(div);
     app.props ? (app.props.container = shadow) : (app.props = { container: shadow });
 
-    // 构造CommonJs模块环境
     const { instance, sandbox } = await execScripts(name, appSandbox);
     app.sandbox = sandbox;
-    // console.log('insinsinsins', instance);
-    app.bootstrap = instance.bootstrap;
+    // console.log('instance', instance);
+    app.beforeMount = instance.beforeMount;
     app.mount = instance.mount;
     app.unmount = instance.unmount;
 
-    await bootstrap(app);
+    await beforeMount(app);
     await mount(app);
 };
 

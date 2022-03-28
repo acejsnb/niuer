@@ -4,28 +4,19 @@ class ProxySandbox {
     public proxy: any;
 
     /**
-     * 构造函数
+     * 代理沙箱
      * @param name 沙箱名称
      * @param context 共享的上下文
      */
     constructor(name: string, context: any = {}) {
         this.name = name;
-        // const fakeWindow = Object.create({});
         const fakeWindow = {...window};
+        // @ts-ignore
         this.proxy = new Proxy(fakeWindow, {
-            set: (target, name, value, receiver) => {
-                if (this.sandboxRunning) {
-                    if (Object.keys(context).includes(name as string)) return Reflect.set(context, name, value, receiver);
-                    return Reflect.set(target, name, value, receiver);
-                }
-                return false;
-            },
-            get: (target, name, receiver) => {
-                // 优先使用共享对象
-                if (name === Symbol.unscopables) return undefined;
-                if (Object.keys(context).includes(name as string)) return Reflect.get(context, name, receiver);
-                return Reflect.get(target, name, receiver);
-            }
+            set: (target: object, name: PropertyKey, value: any) =>
+                (this.sandboxRunning ? Reflect.set((name in context ? context : target), name, value) : false),
+            get: (target: object, name: PropertyKey) =>
+                Reflect.get((name in context ? context : target), name)
         });
     }
 

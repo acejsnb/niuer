@@ -23,16 +23,16 @@
 - 在main.js中引入routes并注册路由  
   ![](./static/3.png)
 - 微应用时，需在main.js导出以下三个钩子
-    1. bootstrap
+    1. beforeMount
         ```js
-            export async function bootstrap() {
-                console.log('[vue] apm app bootstraped');
+            export async function beforeMount() {
+                console.log('app beforeMounted');
             }
         ```
     2. mount
         ```js
             export async function mount(props) {
-                console.log('[vue] props from main framework', props);
+                console.log('props from main framework', props);
                 render(props);
             }
         ```
@@ -100,11 +100,11 @@
         if (!isNE) render();
         
         /* 微应用运行 start */
-        export async function bootstrap() {
-            // console.log('[vue] apm app bootstraped');
+        export async function beforeMount() {
+            // console.log('app beforeMounted');
         }
         export async function mount(props) {
-            // console.log('[vue] props from main framework', props);
+            // console.log('props from main framework', props);
             render(props);
         }
         export async function unmount() {
@@ -116,6 +116,26 @@
         }
         /* 微应用运行 end */
     ```
-
-
-# 文档未完善...
+2. 主应用与微应用通信
+    - 引用
+    ```js
+        import { GlobalAction } from 'niuer';
+        const globalAction = new GlobalAction({ loading: true })
+    ```
+   - 修改单个属性数据
+   `globalAction.setItem('loading', false);`
+   - 获取单个属性数据
+   `globalAction.etItem('loading');`
+   - 获取所有数据
+   `globalAction.getState();`
+   - 设置所有数据（这里会重新初始化 - 慎用）
+   `globalAction.setState({ loading: true });`
+   - 监听数据改变回调
+   ```js
+        globalAction.onStateChange((cur, prev) => {
+            console.log('数据改变', cur, prev);
+        });
+   ```
+3. 集成vite打包
+      - 设置 `build.lib` ,这里参考vite官网
+![](./static/vite-bulid-lib.png)

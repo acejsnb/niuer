@@ -1,8 +1,8 @@
 import type { App } from './type';
 
 // 子应用周期
-export const bootstrap = async (app: App) => {
-    app.bootstrap && await app.bootstrap(app.props);
+export const beforeMount = async (app: App) => {
+    app.beforeMount && await app.beforeMount(app.props);
 };
 export const mount = async (app: App) => {
     app.mount && await app.mount(app.props);
