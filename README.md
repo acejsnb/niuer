@@ -117,25 +117,38 @@
         /* 微应用运行 end */
     ```
 2. 主应用与微应用通信
-    - 引用
-    ```js
-        import { GlobalAction } from 'niuer';
-        const globalAction = new GlobalAction({ loading: true })
-    ```
-   - 修改单个属性数据
-   `globalAction.setItem('loading', false);`
-   - 获取单个属性数据
-   `globalAction.setItem('loading');`
-   - 获取所有数据
-   `globalAction.getState();`
-   - 设置所有数据（这里会重新初始化 - 慎用）
-   `globalAction.setState({ loading: true });`
-   - 监听数据改变回调
-   ```js
-        globalAction.onStateChange((cur, prev) => {
-            console.log('数据改变', cur, prev);
-        });
-   ```
+    - 主应用引用
+        ```js
+            import { GlobalAction } from 'niuer';
+            const globalAction = new GlobalAction({ loading: true })
+        ```
+       - 修改单个属性数据
+     `globalAction.setItem('loading', false);`
+       - 获取单个属性数据
+      `globalAction.setItem('loading');`
+       - 获取所有数据
+      `globalAction.getState();`
+       - 设置所有数据（这里会重新初始化 - 慎用）
+      `globalAction.setState({ loading: true });`
+       - 监听数据改变回调
+       ```js
+            globalAction.onStateChange((cur, prev) => {
+                console.log('数据改变', cur, prev);
+            });
+       ```
+    - 微应用通过获取props里的globalAction实现设置监听数据变化
+        ```js
+          export async function mount(props) {
+           console.log('%c [vue] props from main framework', 'color: red;', props);
+           render(props);
+           setTimeout(() => {
+               props.globalAction.setItem('loading', false);
+           }, 3000);
+           props.globalAction.onStateChange((state) => {
+               console.log('子应用监听全局数据改变：：：：', state);
+           });
+           }
+        ```
 3. 集成vite打包
       - 设置 `build.lib` ,这里参考vite官网
     ![](./static/vite-bulid-lib.png)
