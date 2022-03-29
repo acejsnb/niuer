@@ -1,34 +1,32 @@
 // 通信事件注册
-interface State {
-    [key: PropertyKey | string]: any
-}
-type OptionChange = (curState: State, preState: State) => void
+type OptionChange<T> = (curState: T, preState: T) => void
 
-export default class GlobalAction {
-    private _state: State
+export default class GlobalAction<T> {
+    private _state: T
     private _proxy: any;
-    private _optionEvents: OptionChange[] // 事件列表
+    private _optionEvents: Array<OptionChange<T>> // 事件列表
 
-    constructor(state: State) {
-        this._state = {};
-        this._optionEvents = [];
+    constructor(state: T) {
+        this._state = {} as T;
+        this._optionEvents = [] as Array<OptionChange<T>>;
         this._init(state);
     }
-    private _init(state: State) {
+    private _init(state: T) {
         this._state = JSON.parse(JSON.stringify(state));
         // @ts-ignore
         this._proxy = new Proxy(this._state, {
-            set: (target: object, key: PropertyKey, value: any) => {
+            set: (target: object, key: string, value: any) => {
                 const preState = JSON.parse(JSON.stringify(this._state));
+                // @ts-ignore
                 this._state[key] = value;
                 this._optionEvents.forEach(event => event(this._state, preState));
                 return Reflect.set(target, key, value);
             },
-            get: (target: object, key: PropertyKey) => Reflect.get(target, key)
+            get: (target: object, key: string) => Reflect.get(target, key)
         });
     }
     // 重新设置数据
-    setState(state: State) {
+    setState(state: T) {
         this._init(state);
     }
     getState() {
@@ -43,7 +41,7 @@ export default class GlobalAction {
         return this._proxy[key];
     }
     // 添加监听
-    onStateChange(func: OptionChange) {
+    onStateChange(func: OptionChange<T>) {
         this._optionEvents.push(func);
     }
 }

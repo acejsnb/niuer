@@ -1,5 +1,3 @@
-import {beforeMount} from './ne/LifeCycle';
-
 export interface Props {
     basename?: string
     container?: string | HTMLElement | ShadowRoot
@@ -19,8 +17,28 @@ export interface App extends LifeCycle {
     activeRule: string
 }
 
+interface OptionChange<T> {
+    func(curState: T, preState: T): void
+}
+
+export interface RGlobalAction<T> {
+    setState(state: T): void
+    getState(): T
+    setItem(key: string, val: any): boolean
+    getItem(key: string): any
+    onStateChange(func: OptionChange<T>): void
+}
+
 // @ts-ignore
 declare module 'niuer' {
     export function registerMicroApps(app: App[]): void
-    export function getApps(): App[]
+    export function start(): void
+    export class GlobalAction<T> {
+        constructor(state: T);
+        public setState(state: T): void
+        public getState(): T
+        public setItem(key: string, val: any): boolean
+        public getItem(key: string): any
+        public onStateChange<T>(func: OptionChange<T>): void
+    }
 }
