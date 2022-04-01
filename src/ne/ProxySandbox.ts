@@ -11,8 +11,7 @@ class ProxySandbox {
     constructor(name: string, context: any = {}) {
         this.name = name;
         const fakeWindow = {...window};
-        // @ts-ignore
-        this.proxy = new Proxy(fakeWindow, {
+        this.proxy = new (window as any).Proxy(fakeWindow, {
             set: (target: object, name: PropertyKey, value: any) =>
                 (this.sandboxRunning ? Reflect.set((name in context ? context : target), name, value) : false),
             get: (target: object, name: PropertyKey) =>

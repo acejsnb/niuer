@@ -4,8 +4,9 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "target": "ESNext",
-    "module": "ESNext",
+    "lib": ["DOM", "ESNext"],
+    "target": "ES5",
+    "module": "commonjs",
     "esModuleInterop": false,
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "Node",
@@ -13,7 +14,7 @@
     "strict": true,
     "skipLibCheck": false,
     "noEmit": false,
-    "declaration": false,
+    "declaration": false
   },
   "exclude": ["node_modules", "dist", "src/declaration.ts"]
 }

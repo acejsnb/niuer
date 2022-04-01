@@ -13,8 +13,7 @@ export default class GlobalAction<T> {
     }
     private _init(state: T) {
         this._state = JSON.parse(JSON.stringify(state));
-        // @ts-ignore
-        this._proxy = new Proxy(this._state, {
+        this._proxy = new (window as any).Proxy(this._state, {
             set: (target: object, key: string, value: any) => {
                 const preState = JSON.parse(JSON.stringify(this._state));
                 // @ts-ignore
