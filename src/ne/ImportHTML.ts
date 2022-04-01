@@ -17,21 +17,24 @@ const ImportHTML = async (url: string) => {
         })
     );
     const execScripts = async (name: string, appSandbox: any) => {
-        // 构造CommonJs模块环境
-        const module = { exports: {} as LifeCycle }, exports = module.exports;
         // 代理上下文
-        const context = { window, document: window.document, history: window.history, location: window.location, navigator: window.navigator, top: window.top };
-        // const context = { window, document: window.document, top: window.top };
+        const context = { ...window };
+        // const context = { window, document: window.document, history: window.history, location: window.location, navigator: window.navigator, top: window.top };
         // 创建沙箱
         const sandbox = appSandbox ?? new ProxySandbox(name, context);
         sandbox.active();
         const proxyWindow = sandbox.proxy;
         const scripts = await getExternalScripts();
-        scripts.forEach(code => {
-            // code && eval(code);
-            code && new Function('context', 'module', 'exports', code)(proxyWindow, module, exports);
-        });
-        return { instance: module.exports, sandbox };
+        const instance = ((window) => {
+            // 构造CommonJs模块环境
+            const module = { exports: {} as LifeCycle }, exports = module.exports;
+            scripts.forEach(code => {
+                // code && eval(code);
+                code && new Function('context', 'module', 'exports', code)(window, module, exports);
+            });
+            return module.exports;
+        })(proxyWindow);
+        return { instance, sandbox };
     };
 
     return { template, execScripts };

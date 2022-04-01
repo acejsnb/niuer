@@ -1,5 +1,5 @@
 // 通信事件注册
-type OptionChange<T> = (curState: T, preState: T) => void
+export type OptionChange<T> = (cur: T, pre: T) => void
 
 export default class GlobalAction<T> {
     private _state: T

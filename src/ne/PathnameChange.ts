@@ -36,6 +36,10 @@ const PathnameChange = async () => {
     // 创建Shadow
     const shadow: ShadowRoot = div.attachShadow({ mode: 'open' });
     shadow.innerHTML = template.innerHTML;
+    // 设置head标签
+    // const head = document.createElement('head');
+    // shadow.insertBefore(head, shadow.firstElementChild);
+
     _container.appendChild(div);
     app.props ? (app.props.container = shadow) : (app.props = { container: shadow });
 

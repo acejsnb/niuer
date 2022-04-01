@@ -17,9 +17,7 @@ export interface App extends LifeCycle {
     activeRule: string
 }
 
-interface OptionChange<T> {
-    func(curState: T, preState: T): void
-}
+export type OptionChange<T> = (cur: T, pre: T) => void
 
 export interface RGlobalAction<T> {
     setState(state: T): void
@@ -39,6 +37,6 @@ declare module 'niuer' {
         public getState(): T
         public setItem(key: string, val: any): boolean
         public getItem(key: string): any
-        public onStateChange<T>(func: OptionChange<T>): void
+        public onStateChange(func: OptionChange<T>): void
     }
 }
