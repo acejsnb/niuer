@@ -151,4 +151,4 @@
         ```
 3. 集成vite打包
       - 设置 `build.lib` ,这里参考vite官网
-    ![](./static/vite-bulid-lib.png)
+      - ![](./static/vite-bulid-lib.png)
