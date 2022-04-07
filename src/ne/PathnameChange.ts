@@ -32,7 +32,7 @@ const PathnameChange = async () => {
     const _container = document.querySelector(container);
     _container.innerHTML = '';
     const div = document.createElement('div');
-    SetNodeAttribute(div, { __app_by_niuer__: '', 'data-name': name });
+    SetNodeAttribute(div, { __app_by_niuer__: '', 'data-appname': name });
     // 创建Shadow
     const shadow: ShadowRoot = div.attachShadow({ mode: 'open' });
     shadow.innerHTML = template.innerHTML;
